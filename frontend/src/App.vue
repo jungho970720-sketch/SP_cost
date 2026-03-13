@@ -191,19 +191,20 @@ body {
 
 .page {
   min-height: 100vh;
-  padding: 32px 16px;
+  padding: 24px 32px;
   background:
     radial-gradient(circle at top right, rgba(86, 140, 255, 0.12), transparent 30%),
     #f5f7fb;
 }
 
 .container {
-  max-width: 1080px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0;
 }
 
 .hero {
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .eyebrow {
@@ -217,15 +218,14 @@ body {
 
 .hero h1 {
   margin: 0;
-  font-size: 34px;
-  line-height: 1.2;
+  font-size: 42px;
   color: #172033;
 }
 
 .subtitle {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: #5f6b7a;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .panel {
@@ -237,11 +237,11 @@ body {
 
 .search-panel {
   display: grid;
-  grid-template-columns: 1.4fr 1fr auto;
-  gap: 16px;
-  padding: 20px;
+  grid-template-columns: 2fr 1fr 160px;
+  gap: 18px;
+  padding: 26px;
   align-items: end;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .field-group {
@@ -257,82 +257,65 @@ body {
 }
 
 .field-group input {
-  height: 46px;
+  height: 50px;
   border: 1px solid #d8e0ec;
   border-radius: 12px;
   padding: 0 14px;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.field-group input:focus {
-  border-color: #5b6bff;
-  box-shadow: 0 0 0 4px rgba(91, 107, 255, 0.12);
+  font-size: 16px;
 }
 
 .analyze-btn {
-  height: 46px;
+  height: 50px;
   border: none;
   border-radius: 12px;
   padding: 0 20px;
   background: linear-gradient(135deg, #5b6bff, #7a5cff);
   color: white;
   font-weight: 700;
+  font-size: 15px;
   cursor: pointer;
-  transition: transform 0.15s, opacity 0.2s;
-}
-
-.analyze-btn:hover {
-  transform: translateY(-1px);
-}
-
-.analyze-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .dashboard {
   display: grid;
-  gap: 24px;
+  gap: 26px;
 }
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 18px;
 }
 
 .summary-card {
   background: #fff;
   border: 1px solid #e8edf5;
   border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(18, 38, 63, 0.05);
+  padding: 26px;
+  min-height: 140px;
 }
 
 .card-label {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   color: #64748b;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .card-value {
   margin: 0;
   color: #172033;
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 800;
 }
 
 .card-value.small {
-  font-size: 18px;
+  font-size: 26px;
   word-break: break-all;
 }
 
 .recommendation-panel {
-  padding: 24px;
+  padding: 30px;
 }
 
 .section-label {
@@ -345,23 +328,20 @@ body {
 .recommendation-header {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .recommendation-header h2 {
   margin: 0;
-  font-size: 28px;
-  color: #172033;
+  font-size: 34px;
 }
 
 .badge {
   border-radius: 999px;
-  padding: 10px 14px;
+  padding: 10px 16px;
   font-size: 13px;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .badge.warn {
@@ -382,13 +362,13 @@ body {
 .recommendation-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
 .recommendation-box {
   border: 1px solid #e8edf5;
   border-radius: 16px;
-  padding: 18px;
+  padding: 22px;
   background: #fafcff;
 }
 
@@ -401,18 +381,16 @@ body {
 
 .box-text {
   margin: 0;
-  color: #172033;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
 }
 
 .box-text.strong {
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 800;
 }
 
 .raw-panel {
-  padding: 18px 20px;
+  padding: 20px 24px;
 }
 
 .raw-panel summary {
@@ -444,20 +422,15 @@ body {
   margin-top: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .search-panel,
   .summary-grid,
   .recommendation-grid {
     grid-template-columns: 1fr;
   }
 
-  .recommendation-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .card-value {
-    font-size: 24px;
+  .hero h1 {
+    font-size: 32px;
   }
 }
 </style>
