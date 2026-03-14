@@ -35,4 +35,4 @@ def lambda_handler(event, context):
         "body": results
     }
     
-    ##테스트 수정문 반영 확인
+    ##테스트 수정문 반영 확인 version 2
