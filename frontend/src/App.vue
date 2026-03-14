@@ -156,8 +156,7 @@ async function analyze() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        instance_id: instanceId.value,
-        instance_type: instanceType.value
+        instance_id: instanceId.value
       })
     });
 

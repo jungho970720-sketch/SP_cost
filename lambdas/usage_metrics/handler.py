@@ -16,7 +16,7 @@ def lambda_handler(event, context):
                 "headers": {"Content-Type": "application/json"},
                 "body": json.dumps(
                     {"error": "Invalid JSON body"},
-                    ensure_ascii=False,
+                    ensure_ascii=False
                 ),
             }
     else:
@@ -30,16 +30,17 @@ def lambda_handler(event, context):
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps(
                 {"error": "instance_id is required"},
-                ensure_ascii=False,
+                ensure_ascii=False
             ),
         }
 
     ec2 = boto3.client("ec2")
     cloudwatch = boto3.client("cloudwatch")
 
-    # 1) 인스턴스 존재 여부 확인
+    # 1) EC2 인스턴스 존재 여부 + 실제 인스턴스 타입 조회
     try:
         response = ec2.describe_instances(InstanceIds=[instance_id])
+
         reservations = response.get("Reservations", [])
         instances = [
             instance
@@ -53,9 +54,12 @@ def lambda_handler(event, context):
                 "headers": {"Content-Type": "application/json"},
                 "body": json.dumps(
                     {"error": f"EC2 instance not found: {instance_id}"},
-                    ensure_ascii=False,
+                    ensure_ascii=False
                 ),
             }
+
+        instance = instances[0]
+        instance_type = instance.get("InstanceType", "unknown")
 
     except ClientError as e:
         error_code = e.response.get("Error", {}).get("Code", "")
@@ -65,7 +69,7 @@ def lambda_handler(event, context):
                 "headers": {"Content-Type": "application/json"},
                 "body": json.dumps(
                     {"error": f"EC2 instance not found: {instance_id}"},
-                    ensure_ascii=False,
+                    ensure_ascii=False
                 ),
             }
 
@@ -74,11 +78,11 @@ def lambda_handler(event, context):
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps(
                 {"error": f"Failed to validate instance: {str(e)}"},
-                ensure_ascii=False,
+                ensure_ascii=False
             ),
         }
 
-    # 2) CloudWatch CPU 조회
+    # 2) CloudWatch CPU 사용률 조회
     end_time = datetime.now(timezone.utc)
     start_time = end_time - timedelta(days=7)
 
@@ -98,7 +102,7 @@ def lambda_handler(event, context):
             "headers": {"Content-Type": "application/json"},
             "body": json.dumps(
                 {"error": f"Failed to fetch CloudWatch metrics: {str(e)}"},
-                ensure_ascii=False,
+                ensure_ascii=False
             ),
         }
 
@@ -110,6 +114,7 @@ def lambda_handler(event, context):
 
     result = {
         "instance_id": instance_id,
+        "instance_type": instance_type,
         "cpu_avg": cpu_avg,
         "datapoints_count": len(datapoints),
     }

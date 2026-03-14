@@ -53,14 +53,13 @@ def lambda_handler(event, context):
                 },
                 "body": json.dumps(
                     {"error": "Invalid JSON body"},
-                    ensure_ascii=False,
+                    ensure_ascii=False
                 ),
             }
     else:
         request_body = event
 
     instance_id = request_body.get("instance_id")
-    instance_type = request_body.get("instance_type", "t3.large")
 
     if not instance_id:
         return {
@@ -73,11 +72,11 @@ def lambda_handler(event, context):
             },
             "body": json.dumps(
                 {"error": "instance_id is required"},
-                ensure_ascii=False,
+                ensure_ascii=False
             ),
         }
 
-    # 1) usage_metrics 호출
+    # 1) usage_metrics 호출 → 실제 instance_type, cpu_avg 가져옴
     usage_result = invoke_lambda("usage-metrics", {"instance_id": instance_id})
     usage_status = usage_result.get("statusCode", 500)
     usage_body = parse_body(usage_result.get("body", {}))
@@ -95,6 +94,7 @@ def lambda_handler(event, context):
         }
 
     cpu_avg = usage_body.get("cpu_avg", 0.0)
+    instance_type = usage_body.get("instance_type", "unknown")
 
     # 2) cost_collector 호출
     cost_result = invoke_lambda("cost-collector", {})
@@ -123,7 +123,7 @@ def lambda_handler(event, context):
                     monthly_cost = 0.0
                 break
 
-    # 3) recommendation 호출
+    # 3) recommendation 호출 → 실제 instance_type 전달
     recommendation_result = invoke_lambda(
         "recommendation",
         {
