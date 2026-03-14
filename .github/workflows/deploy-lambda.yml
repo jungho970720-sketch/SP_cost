@@ -1,4 +1,4 @@
-name: Deploy Lambda
+name: Deploy All Lambdas
 
 on:
   push:
@@ -11,29 +11,82 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Zip Lambda
+      - name: Create build directory
+        run: mkdir -p build
+
+      - name: Zip analyze
         run: |
-          mkdir -p build
           cd lambdas/analyze
           zip -r ../../build/analyze.zip .
 
-      - name: Deploy Lambda Code
+      - name: Deploy analyze code
         run: |
           aws lambda update-function-code \
             --function-name analyze \
             --zip-file fileb://build/analyze.zip
 
-      - name: Update Lambda Handler
+      - name: Update analyze handler
         run: |
           aws lambda update-function-configuration \
             --function-name analyze \
+            --handler handler.lambda_handler
+
+      - name: Zip cost_collector
+        run: |
+          cd lambdas/cost_collector
+          zip -r ../../build/cost_collector.zip .
+
+      - name: Deploy cost_collector code
+        run: |
+          aws lambda update-function-code \
+            --function-name cost-collector \
+            --zip-file fileb://build/cost_collector.zip
+
+      - name: Update cost_collector handler
+        run: |
+          aws lambda update-function-configuration \
+            --function-name cost-collector \
+            --handler handler.lambda_handler
+
+      - name: Zip recommendation
+        run: |
+          cd lambdas/recommendation
+          zip -r ../../build/recommendation.zip .
+
+      - name: Deploy recommendation code
+        run: |
+          aws lambda update-function-code \
+            --function-name recommendation \
+            --zip-file fileb://build/recommendation.zip
+
+      - name: Update recommendation handler
+        run: |
+          aws lambda update-function-configuration \
+            --function-name recommendation \
+            --handler handler.lambda_handler
+
+      - name: Zip usage_metrics
+        run: |
+          cd lambdas/usage_metrics
+          zip -r ../../build/usage_metrics.zip .
+
+      - name: Deploy usage_metrics code
+        run: |
+          aws lambda update-function-code \
+            --function-name usage-metrics \
+            --zip-file fileb://build/usage_metrics.zip
+
+      - name: Update usage_metrics handler
+        run: |
+          aws lambda update-function-configuration \
+            --function-name usage-metrics \
             --handler handler.lambda_handler
