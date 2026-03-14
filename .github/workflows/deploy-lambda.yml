@@ -22,11 +22,18 @@ jobs:
 
       - name: Zip Lambda
         run: |
+          mkdir -p build
           cd lambdas/analyze
-          zip -r function.zip .
+          zip -r ../../build/analyze.zip .
 
-      - name: Deploy Lambda
+      - name: Deploy Lambda Code
         run: |
           aws lambda update-function-code \
-          --function-name analyze \
-          --zip-file fileb://lambdas/analyze/function.zip
+            --function-name analyze \
+            --zip-file fileb://build/analyze.zip
+
+      - name: Update Lambda Handler
+        run: |
+          aws lambda update-function-configuration \
+            --function-name analyze \
+            --handler handler.lambda_handler
