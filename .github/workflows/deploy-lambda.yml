@@ -28,5 +28,5 @@ jobs:
       - name: Deploy Lambda
         run: |
           aws lambda update-function-code \
-          --function-name analyze \
+          --function-name sp-cost-analyze \
           --zip-file fileb://lambdas/analyze/function.zip
