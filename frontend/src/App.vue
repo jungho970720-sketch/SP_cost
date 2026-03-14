@@ -22,16 +22,6 @@
           />
         </div>
 
-        <div class="field-group">
-          <label for="instanceType">Instance Type</label>
-          <input
-            id="instanceType"
-            v-model="instanceType"
-            type="text"
-            placeholder="t3.large"
-          />
-        </div>
-
         <button class="analyze-btn" @click="analyze" :disabled="loading">
           {{ loading ? "분석 중..." : "분석 실행" }}
         </button>
@@ -104,7 +94,6 @@
 import { computed, ref } from "vue";
 
 const instanceId = ref("i-01b8ee61b9451d611");
-const instanceType = ref("t3.large");
 const loading = ref(false);
 const error = ref("");
 const result = ref(null);
@@ -236,7 +225,7 @@ body {
 
 .search-panel {
   display: grid;
-  grid-template-columns: 2fr 1fr 160px;
+  grid-template-columns: 1fr 160px;
   gap: 18px;
   padding: 26px;
   align-items: end;
