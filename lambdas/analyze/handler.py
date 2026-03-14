@@ -118,4 +118,4 @@ def lambda_handler(event, context):
         "body": json.dumps(final_result, ensure_ascii=False)
     }
     
-        ##테스트 수정문 반영 확인 version 2
+        ##깃액션 수정 반영 확인
